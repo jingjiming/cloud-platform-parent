@@ -1,0 +1,11 @@
+# 服务设置
+server:
+  port: 5001
+#应用设置
+spring:
+  application:
+    name: cloud-config
+  servlet:
+    context-path: /${spring.application.name}
+  profiles:
+    active: native

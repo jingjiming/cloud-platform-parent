@@ -1,0 +1,22 @@
+# 注册中心
+eureka:
+  instance:
+    # eureka 注册主机地址
+    hostname: localhost
+    #    # 表示eureka间隔多久去拉取服务注册信息，默认为30秒，对于gateway，如果要迅速获取服务注册状态，可以缩小该值，比如1秒
+    lease-renewal-interval-in-seconds: 30
+    #    # 表示eureka至上一次收到心跳之后，等待下一次心跳的超时时间，在这个时间内没收到下一次心跳，则将移除该instance
+    #    # lease-expiration-duration-in-seconds: 20
+    health-check-url-path: /actuator/health
+  client:
+    service-url:
+      # eureka 访问地址  注：/eureka 不能丢，不能换 不能丢，不能换 不能丢，不能换
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/${spring.application.name}/eureka
+    #false 表示不向注册中心注册自己
+    register-with-eureka: false
+    #false 表示不从注册中心获取注册信息
+    fetch-registry: false
+  server:
+    # 自我保护机制 默认true 开启
+    enable-self-preservation: true
+    renewalPercentThreshold: 0.49

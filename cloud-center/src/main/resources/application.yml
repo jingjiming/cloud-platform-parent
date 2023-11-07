@@ -1,0 +1,11 @@
+# 服务设置
+server:
+  port: 4001
+  servlet:
+    context-path: /${spring.application.name}
+# 应用设置
+spring:
+  application:
+    name: cloud-center
+  profiles:
+    active: dev

@@ -1,0 +1,27 @@
+# 服务设置
+server:
+  port: 10001
+  servlet:
+    context-path: /${spring.application.name}
+# 应用设置
+spring:
+  application:
+    name: cloud-service-demo01
+  profiles:
+    active: native
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  servlet:
+    multipart:
+      enabled: true
+      location: /var/tmp
+      # 指定单文件上传的大小限制
+      max-file-size: -1
+      # 一次请求的多个文件大小限制
+      max-request-size: -1
+      # 指定文件将写入磁盘的大小阈值，默认为0
+      file-size-threshold: 200MB

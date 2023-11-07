@@ -1,0 +1,11 @@
+server:
+  port: 8001
+  servlet:
+    context-path: /${spring.application.name}
+spring:
+  application:
+    name: cloud-gateway
+  main:
+    web-application-type: reactive
+  profiles:
+    active: native

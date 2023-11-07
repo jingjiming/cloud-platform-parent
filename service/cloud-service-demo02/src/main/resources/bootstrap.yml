@@ -1,0 +1,60 @@
+spring:
+  #配置管理中心配置
+  cloud:
+    config:
+      # 主机名
+      hostname: localhost
+      # 访问端口
+      port: 5001
+      uri: http://${spring.cloud.config.hostname}:${spring.cloud.config.port}
+      label: master
+      profile: native
+  #服务监控中心
+  boot:
+    admin:
+      # 主机名
+      hostname: localhost
+      # 访问端口
+      port: 6001
+      application:
+        name: cloud-admin
+      client:
+        url: http://${spring.boot.admin.hostname}:${spring.boot.admin.port}/${spring.boot.admin.application.name}
+        enabled: false
+
+#注册中心配置
+eureka:
+  instance:
+    #    # 表示eureka间隔多久去拉取服务注册信息，默认为30秒，对于gateway，如果要迅速获取服务注册状态，可以缩小该值，比如1秒
+    #    lease-renewal-interval-in-seconds: 10
+    #    # 表示eureka至上一次收到心跳之后，等待下一次心跳的超时时间，在这个时间内没收到下一次心跳，则将移除该instance
+    #    # lease-expiration-duration-in-seconds: 20
+    health-check-url-path: /actuator/health
+    # true 以IP地址注册到服务中心,相互注册使用IP地址
+    prefer-ip-address: true
+    # 主机名
+    hostname: localhost
+    # 访问端口
+    port: 4001
+    application:
+      name: cloud-center
+  client:
+    service-url:
+      # eureka 访问地址  注：/eureka 不能丢，不能换 不能丢，不能换 不能丢，不能换
+      defaultZone: http://${eureka.instance.hostname}:${eureka.instance.port}/${eureka.instance.application.name}/eureka
+      #false 表示不向注册中心注册自己
+      register-with-eureka: true
+      #false 表示不从注册中心获取注册信息
+      fetch-registry: true
+      # 注册服务的时候使用ip地址，ip地址从host里面找。
+      prefer_ip_address: true
+
+#健康监控配置
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*' #暴露所有端口
+  endpoint:
+    health:
+      show-details: always

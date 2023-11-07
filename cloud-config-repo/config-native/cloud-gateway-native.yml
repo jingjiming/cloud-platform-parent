@@ -1,0 +1,53 @@
+global:
+  auth:
+    enable: true
+    ignore-url:
+      - /auth/login/**
+spring:
+  #redis集群
+  redis:
+    password: ENC(I+AFYDnULsLS8I0aI3y2dxX4de4R+lCD)
+    sentinel:
+      master: mymaster
+      nodes: 127.0.0.1:26379
+    timeout: 10000
+    keyPrefix: 'PRODUCT_XTGL:'
+    jedis:
+      pool:
+        max-active: 150
+        max-idle: 10
+        min-idle: 1
+        max-wait: 3000
+        time-between-eviction-runs: 50
+
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true   # 开启从注册中心动态创建路由的功能，利用微服务名称进行路由
+          lower-case-service-id: true
+      routes:
+      - id: cloud-service-demo01
+        uri: lb://cloud-service-demo01
+        predicates:
+        - Path=/cloud/service/demo01/**
+        filters:
+        - PrefixPath=/cloud-service-demo01/api/v1
+      
+      - id: cloud-service-demo02
+        uri: lb://cloud-service-demo02
+        predicates:
+        - Path=/cloud/service/demo02/**
+        filters:
+        - PrefixPath=/cloud-service-demo02/api/v1
+
+logging:
+  level:
+    org.springframework.cloud.gateway: TRACE
+    org.springframework.http.server.reactive: DEBUG
+    org.springframework.web.reactive: DEBUG
+    reactor.ipc.netty: DEBUG
+    reactor.netty: DEBUG
+jasypt:
+  encryptor:
+    password: b7g6RLY5BWxED3mcRl
